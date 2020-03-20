@@ -8,6 +8,7 @@ export default class HelloWorldApp extends Component {
         <Text>Hello, world!</Text>
         <Text>woow</Text>
         <Text>asdf</Text>
+        <Text>dfdf</Text>
       </View>
     );
   }

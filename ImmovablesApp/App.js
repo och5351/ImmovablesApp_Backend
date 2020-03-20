@@ -9,6 +9,7 @@ export default class HelloWorldApp extends Component {
         <Text>woow</Text>
         <Text>asdf</Text>
         <Text>dfdf</Text>
+        <Text>this is och branch</Text>
       </View>
     );
   }

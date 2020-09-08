@@ -5,8 +5,11 @@ import { Icon, Container, Header, Button } from 'native-base';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import RowCardComponent  from './RowCardComponent'; 
 import http from "../../../http-common";
+import Loading from "./BiddingAlgorithm/Loading"
+//import PurchaseHope from "./BiddingAlgorithm/PurchaseHope"
 import DetailPostModal from './DetailPostModal'
 import WriteModal from './WriteModal'
+import BoardHeader from './BiddingAlgorithm/BoardHeader'
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
@@ -15,7 +18,7 @@ const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 export default class Board extends Component { 
 
   constructor(props) {  
-    super(props);      
+    super(props);       
     this.state = {
       DBdata: null,
       DBdata2: null,
@@ -26,15 +29,16 @@ export default class Board extends Component {
       isModalVisible: false
     };  
   }    
-  
+
   //로딩 구현(Life cycle (constructor-> static getDerivedStateFromProps() -> render() -> ))
   componentDidMount(){
+    //this.getDB()
     this.getDB()
     setTimeout(()=>{
       this.setState({
         loading:false
       })
-    }, 10000)
+    }, 3000)
   }
 
   static navigationOptions = {
@@ -42,7 +46,7 @@ export default class Board extends Component {
           <Icon name='ios-create' style={{color: tintColor}}/>
       )
   }
-
+  
   segmentClicked = (activeIndex)=>{
     this.setState({activeIndex});
     this.renderSection()
@@ -55,24 +59,24 @@ export default class Board extends Component {
 
   getDB(){
     http.get(`/board/getPost`)
-      .then(response => {
-        this.state.DBdata = response.data
-        this.renderSection()
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    .then(response => {
+      this.state.DBdata = response.data
+      this.renderSection()
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 
   getDB2(){
     http.get(`/board/getPost2`)
-      .then(response => {
-        this.state.DBdata2 = response.data
-        this.renderSection()
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    .then(response => {
+      this.state.DBdata2 = response.data
+      this.renderSection()
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
 
   renderSection() {  
@@ -85,26 +89,24 @@ export default class Board extends Component {
         )            
       }
       else if(this.state.activeIndex === 1){
-        return (   
-          <View>    
-            <View style={styles.category}>
-              <TouchableOpacity style={[ this.state.activeIndex === 0 ? {height:40,borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
-                onPress={() => this.segmentClicked2(3)}
-                active={this.state.activeIndex2 === 3}>
-                <Text style={[ this.state.activeIndex2 === 3 ? {} : {color: 'grey'} ]}>중개를 원해요!</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[ this.state.activeIndex === 1 ? {height:40, borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
-                onPress={() => this.segmentClicked2(4)}
-                active={this.state.activeIndex2 === 4}>
-                <Text style={ [ this.state.activeIndex2 === 4 ? {} : {color: 'grey'} ]}>거래를 원해요!</Text>
-              </TouchableOpacity>
-          </View> 
+        return (     
+          <View style={styles.category}>
+            <TouchableOpacity style={[ this.state.activeIndex === 0 ? {height:40,borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
+              onPress={() => this.segmentClicked2(3)}
+              active={this.state.activeIndex2 === 3}>
+              <Text style={[ this.state.activeIndex2 === 3 ? {} : {color: 'grey'} ]}>중개를 원해요!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[ this.state.activeIndex === 1 ? {height:40, borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
+              onPress={() => this.segmentClicked2(4)}
+              active={this.state.activeIndex2 === 4}>
+              <Text style={ [ this.state.activeIndex2 === 4 ? {} : {color: 'grey'} ]}>거래를 원해요!</Text>
+            </TouchableOpacity>
             {
-            this.state.DBdata.map((feed, index) => (
-              <RowCardComponent data={ feed } key={index}/>
-            ))
+              this.state.DBdata2.map((feed, index) => (
+                <RowCardComponent data={ feed } key={index}/>
+              ))
             }
-          </View>  
+        </View> 
         )
       }
     }else{
@@ -117,48 +119,11 @@ export default class Board extends Component {
   toggle(){
     this.setState({isModalVisible: !this.state.isModalVisible});
   }
-  
+  //Main Render @@구매 & 거래
   render() {
     if(this.state.loading){
       return(        
-        <Container style={styles.container}>
-          <Header style={styles.header}>
-            <View style={{justifyContent:'center'}}>
-              <Text>거래소</Text>                  
-            </View> 
-            <View style={{position: 'absolute', right: 0}}>
-              <Button onPress={() => this.toggle()} style={{backgroundColor:'white'}}>
-                <Icon name='ios-create' style={{color:'black'}}/>
-              </Button>
-            </View>                   
-          </Header>
-          <View style={styles.search}>                  
-              <TextInput  
-                  style={{height: '80%', width: '80%', backgroundColor: 'whitesmoke', fontSize: 20, margin:10}}  
-                  placeholder="검색"  
-                  onChangeText={(searchInfo) => this.setState({searchInfo})}  
-              />
-              <TouchableOpacity>
-              <Icon name='ios-search'/>
-              <Text>검색</Text>
-              </TouchableOpacity>
-          </View>
-          <View style={styles.category}>
-            <TouchableOpacity style={[ this.state.activeIndex === 0 ? {height:40,borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
-              onPress={() => this.segmentClicked(0)}
-              active={this.state.activeIndex === 0}>
-              <Text style={[ this.state.activeIndex === 0 ? {} : {color: 'grey'} ]}>구매 희망 게시판</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[ this.state.activeIndex === 1 ? {height:40, borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
-              onPress={() => this.segmentClicked(1)}
-              active={this.state.activeIndex === 1}>
-              <Text style={ [ this.state.activeIndex === 1 ? {} : {color: 'grey'} ]}>거래 게시판</Text>
-            </TouchableOpacity>
-          </View> 
-          <View>
-            <Text>로딩중</Text>
-          </View>
-        </Container>
+        <Loading/>
       )
     }else{
       return (        
@@ -166,28 +131,7 @@ export default class Board extends Component {
           <Modal isVisible={this.state.isModalVisible} animationIn='bounceInDown' animationInTiming={1000} animationOut='slideOutDown' animationOutTiming={1000}>
             <WriteModal toggle={() => this.toggle()}/>
           </Modal>          
-          <Header style={styles.header}>
-            <View style={{justifyContent:'center'}}>
-              <Text>거래소</Text>                  
-            </View> 
-            <View style={{position: 'absolute', right: 0}}>
-              <Button onPress={() => this.toggle()} style={{backgroundColor:'white'}}>
-                <Icon name='ios-create' style={{color:'black'}}/>
-              </Button>
-            </View>                   
-          </Header>
-          <View style={styles.search}>                  
-              <TextInput  
-                  style={{height: '80%', width: '80%', backgroundColor: 'whitesmoke', fontSize: 20, margin:10}}  
-                  placeholder="검색"  
-                  onChangeText={(searchInfo) => this.setState({searchInfo})}  
-              />
-              <TouchableOpacity>
-              <Icon name='ios-search'/>
-              <Text>검색</Text>
-              </TouchableOpacity>
-          </View>        
-
+          <BoardHeader/>     
           <View style={styles.category}>
             <TouchableOpacity style={[ this.state.activeIndex === 0 ? {height:40,borderBottomWidth:2} :{height:40}], { padding: 15, backgroundColor:'string', flexDirection: 'row'}}
               onPress={() => this.segmentClicked(0)}
@@ -202,7 +146,7 @@ export default class Board extends Component {
           </View> 
           <ScrollView>                                             
           {                               
-            this.renderSection() 
+           this.renderSection() 
           }
           </ScrollView>
         </Container>

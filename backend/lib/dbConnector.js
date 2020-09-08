@@ -1,21 +1,21 @@
 var mysql = require('mysql');
 
-var dbconnInfo = {
-    host: 'localhost',
-    user: 'gmc',
-    password: '17005314', 
-    port: 3306,
-    //password: '0000',
-    database: 'Immovables'
-};
-
 // var dbconnInfo = {
-//     host: 'localhost',	   
-//     user: 'root',	    
-//     password: 'iclab4',	  
-//     //password: '0000',	  
-//     database: 'immovables'
+//     host: 'localhost',
+//     user: 'gmc',
+//     password: '17005314', 
+//     port: 3306,
+//     //password: '0000',
+//     database: 'Immovables'
 // };
+
+var dbconnInfo = {
+    host: 'localhost',	   
+    user: 'root',	    
+    password: 'iclab4',	  
+    //password: '0000',	  
+    database: 'immovables'
+};
 
 var connection = {
     init : () => {

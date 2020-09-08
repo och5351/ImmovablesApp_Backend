@@ -146,7 +146,11 @@ export default class Board extends Component {
           </View> 
           <ScrollView>                                             
           {                               
+<<<<<<< HEAD
            this.renderSection() 
+=======
+            // this.renderSection() 
+>>>>>>> 388d0879cd027ecdcad34330b9376b43ff3228e6
           }
           </ScrollView>
         </Container>

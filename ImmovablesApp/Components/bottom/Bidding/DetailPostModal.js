@@ -38,18 +38,29 @@ export default class DetailPostModal extends Component {
           <View style={styles.img}>
             <Text style={{margin:15}}>사진</Text>        
           </View>
-          {/*가격 뷰*/}
+          <View style={{backgroundColor: 'white'}}>
+            <View style={styles.hr}/>
+          </View>          
+          {/* 가격 뷰 // DB에 전,월세 저장 */}
           <View style={styles.price}>
-            <Text style={{margin:15}}>{this.state.data.price}</Text>
-          </View>
+            <Text style={{fontSize:25}}>월세 {this.state.data.price}</Text>
+          </View>                 
           {/*설명*/}
-          <View style={styles.price}>
-            <Text style={{margin:15}}>{this.state.data.content}</Text>
+          <View style={styles.content}>
+            <Text>{this.state.data.content}</Text>
           </View>
+          <View style={{backgroundColor: 'white'}}>
+            <View style={styles.hr}/>
+          </View> 
           {/*부동산*/}
-          <View style={styles.price}>
-            <Text style={{margin:15}}>{this.state.data.author}</Text>
+          <View style={styles.category}>
+            <View style={styles.info}>
+              <Text>{this.state.data.author}</Text>
+            </View>
           </View>
+          <View style={{backgroundColor: 'white'}}>
+            <View style={styles.hr}/>
+          </View>  
         </ScrollView>
       </Container>
     );
@@ -68,21 +79,43 @@ const styles = StyleSheet.create({
     flexDirection:'row'
   },
   img:{
+    height: 300,
     alignItems:'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   price:{
     alignItems:'center',
     justifyContent: 'center',
+    height:'10%',
+    backgroundColor: 'white'
+  },
+  content:{
+    alignItems:'center',
+    justifyContent: 'center',
+    height:'10%',
+    backgroundColor: 'white'
+  },
+  category: {
+    width:'100%',
+    height: 70,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   info:{
     alignItems:'center',
     justifyContent: 'center',
+    margin:15,
+  },
+  hr:{    
+    margin:10,
+    borderBottomColor: 'gainsboro',
+    borderBottomWidth: 1,
   },
   br: {
     height: '10%',
     backgroundColor: 'whitesmoke'
   }
-
-
 });

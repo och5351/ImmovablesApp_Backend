@@ -81,3 +81,7 @@ Kim jong-min
     Update a UI like.js
 > ### 2020-04-09
     Update a Button -> TouchableOpacity in like.js
+> ### 2020-05-25
+    Add FindAdress componet.(error ImagePicker)
+
+

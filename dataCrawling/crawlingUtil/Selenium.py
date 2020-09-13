@@ -59,10 +59,23 @@ class Selenium:
         tempImmovable1 = tempImmovable1[0].split(',')
         s = ''
         for word in tempImmovable1:
-            if len(word) > 2 and word[:2] == '확인' or word[:4] == '거래완료':
+            if len(word) > 2 and word[:2] == '확인' or word[:3] == '등록일' or word[:4] == '거래완료':
                 tempImmovable2.append(s)
                 s = ''
             else:
                 s += word + " "
         print(len(tempImmovable2))
         return len(tempImmovable2)
+
+    def inputData(self, link, temp):
+        elem = self.driver.find_element_by_xpath(link)
+        elem.send_keys(temp)
+        elem.send_keys(Keys.RETURN)
+
+    def clearInputBox(self, link):
+        elem = self.driver.find_element_by_xpath(link)
+        elem.send_keys(Keys.CONTROL + "a")
+        elem.send_keys(Keys.DELETE)
+
+    def get_current_url(self):
+        return self.driver.current_url

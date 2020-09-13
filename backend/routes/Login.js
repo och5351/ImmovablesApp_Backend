@@ -11,7 +11,7 @@ router.post('/chinfo', function(req, res){
 
   conn.query(sql,data[0],(err, result,rows)=>{
     console.log(data[0])
-    if(err) throw err;
+    if(err){ console.log(err);}
     else{
       console.log(result[0].id)
       if(result[0].id == 1)

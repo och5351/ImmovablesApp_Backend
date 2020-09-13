@@ -19,9 +19,10 @@ export default class CustomButton extends Component{
 
   render(){
     return (
-      <TouchableOpacity style={[
+      <TouchableOpacity 
+      style={[
         styles.button,
-        {backgroundColor: this.props.buttonColor}
+        //{backgroundColor: this.props.buttonColor}
       ]}
       onPress={this.props.onPress}>
         <Text style={[
@@ -36,6 +37,7 @@ export default class CustomButton extends Component{
 const styles = StyleSheet.create({
   button: {
     flex: 1,
+    width: '50%',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 10,

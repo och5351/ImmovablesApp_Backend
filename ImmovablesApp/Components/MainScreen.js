@@ -20,7 +20,7 @@ const AppTabNavigator = createMaterialTopTabNavigator({
     더보기: {screen:plus}
 }, {
   animationEnabled: true,
-  swipeEnabled: true,
+  swipeEnabled: false,
   tabBarPosition: "bottom",
   tabBarOptions: {
     style : {/*

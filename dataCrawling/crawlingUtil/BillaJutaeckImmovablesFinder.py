@@ -69,20 +69,20 @@ class BillaJutaeckImmovablesFinder:
         contNum = len(tempContryArr)
         time.sleep(1)
         for click in range(contNum):  # 읍/면/구
-
-            try:
-                self.contry = tempContryArr[click]
-                self.contryButton = '//*[@id="region_filter"]/div/div/div[2]/ul/li[' + str(click + 1) + ']'
-                self.se.buttonClick(self.contryButton)
-                time.sleep(2)
-                self.findTown()
-                time.sleep(2)
-                self.se.buttonClick('//*[@id="region_filter"]/div/a/span[2]')
-                time.sleep(2)
-                self.se.buttonClick('//*[@id="region_filter"]/div/a/span[2]')
-                time.sleep(1)
-            except:
-                None
+            if click > 8:
+                try:
+                    self.contry = tempContryArr[click]
+                    self.contryButton = '//*[@id="region_filter"]/div/div/div[2]/ul/li[' + str(click + 1) + ']'
+                    self.se.buttonClick(self.contryButton)
+                    time.sleep(2)
+                    self.findTown()
+                    time.sleep(2)
+                    self.se.buttonClick('//*[@id="region_filter"]/div/a/span[2]')
+                    time.sleep(2)
+                    self.se.buttonClick('//*[@id="region_filter"]/div/a/span[2]')
+                    time.sleep(1)
+                except:
+                    None
 
     def findTown(self):
         tempTownArr = []  # 임시 리스트
@@ -162,7 +162,7 @@ class BillaJutaeckImmovablesFinder:
                 s = ''
                 tempImmovable2 = []
                 for word in tempImmovable1:
-                    if len(word) > 2 and word[:2] == '확인' or word[:4] == '거래완료':
+                    if len(word) > 2 and word[:2] == '확인' or word[:3] == '등록일' or word[:4] == '거래완료':
                         tempImmovable2.append(s)
                         s = ''
                     else:

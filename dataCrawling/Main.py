@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+
 from datetime import datetime
 from crawlingUtil.CityUtilCrawling import CityUtilCrawling
 # from crawlingUtil.CityFinder import CityFinder
 # from crawlingUtil.InsertCity import InsertCity
 # from crawlingUtil.ImmovablesFinder import ImmovablesFinder
-from crawlingUtil.BillaJutaeckImmovablesFinder import BillaJutaeckImmovablesFinder
+# from crawlingUtil.BillaJutaeckImmovablesFinder import BillaJutaeckImmovablesFinder
+from crawlingUtil.LatitudeLongitudeFinder import LatitudeLongitudeFinder
 import schedule
 import time
 import winsound
@@ -17,10 +19,12 @@ def job_day():
         #CityFinder(1)
 
         # 네이버 부동산 URL
-        naverImmovablesURL = 'https://new.land.naver.com/complexes?ms=37.487257,127.0568035,17&a=APT:ABYG:JGC&e=RETAIL'
+        # naverImmovablesURL = 'https://new.land.naver.com/complexes?ms=37.487257,127.0568035,17&a=APT:ABYG:JGC&e=RETAIL'
+        googleMap = 'https://www.google.com/maps/?hl=ko'
         # ImmovablesFinder(naverImmovablesURL)
         # InsertCity(naverImmovablesURL)
-        BillaJutaeckImmovablesFinder(naverImmovablesURL)
+        # BillaJutaeckImmovablesFinder(naverImmovablesURL)
+        LatitudeLongitudeFinder(googleMap)
         print('\n')
         print("="*120)
         print('\n\t' + str(today) + ' 크롤링 완료')
@@ -75,12 +79,12 @@ if __name__ == '__main__':
         # time.sleep(1)
     # DB = DBConnector()
     # dp = DataPreprocessor()
-    # dp.preProcessOffice()
-    # print(dp.getData())
+    # dp.preProcessVilla()
+    #print(dp.getData())
 
     # tempArr = DB.DBselector(dp.getData())
     # DB.InsertApart(tempArr)
+    # DB.InsertOfficetel(tempArr)
 
     # DB.DBCloser()
-
     # db.InsertDB(l)

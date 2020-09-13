@@ -12,3 +12,8 @@ web-report/
 
 # macOS
 .DS_Store
+
+# Include IP File
+#backend/lib/dbConnector.js
+#ImmovablesApp/http-common.js
+

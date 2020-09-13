@@ -48,7 +48,7 @@ export default class Login extends Component {
       .catch(function (error) {
         console.log(error);
       });
-
+      this.props.navigation.replace('next')
     };
     
    /* _doLogin(){

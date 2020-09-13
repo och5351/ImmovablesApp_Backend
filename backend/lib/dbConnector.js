@@ -3,8 +3,8 @@ var mysql = require('mysql');
 var dbconnInfo = {
     host: 'localhost',
     user: 'root',
-    password: 'iclab4',
-    //password: '0000',
+    //password: 'iclab4',
+    password: '0000',
     database: 'immovables'
 };
 

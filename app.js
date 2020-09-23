@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var BoardRouter = require('./routes/Board');
 var LoginRouter = require('./routes/Login')
-var AddressRouter = require('./routes/Writing/Address')
+var AddressRouter = require('./routes/Address')
 var Map = require('./routes/Map')
 
 var app = express();

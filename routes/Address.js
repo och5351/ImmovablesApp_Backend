@@ -22,4 +22,11 @@ router.get('/getContry/:seq', function(req, res, next) {
         res.send(row);  
     });
 });
+
+router.get('/getTown/:seq', function(req, res, next) {
+    let town_code  = req.params.seq;
+    conn.query('SELECT * FROM town WHERE pre_code = ?',[town_code], function(err, row) {
+        res.send(row);  
+    });
+});
 module.exports = router;

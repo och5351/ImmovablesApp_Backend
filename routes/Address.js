@@ -16,7 +16,7 @@ router.get('/getCity', function(req, res, next) {
     });
 });
 // 시/군/구읽어오기 ..
-router.get('/getGunCity:seq', function(req, res, next) {
+router.get('/getContry:seq', function(req, res, next) {
     let city_code  = req.params.seq;
     
     conn.query('SELECT * FROM contry WHERE pre_code = ?',[city_code], function(err, row) {

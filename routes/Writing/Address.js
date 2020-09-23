@@ -15,7 +15,7 @@ router.get('/getCity', function(req, res, next) {
         res.send(row);  
     });
 });
-// 시/군/구읽어오기
+// 시/군/구읽어오기 ..
 router.get('/getGunCity:seq', function(req, res, next) {
     let city_code  = req.params.seq;
     

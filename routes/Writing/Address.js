@@ -11,17 +11,15 @@ router.get('/', function(req, res, next) {
 
 // 시/도 읽어 오기
 router.get('/getCity', function(req, res, next) {
-    console.log(3);
     conn.query('SELECT * FROM city', function(err, row) {
-        console.log(3);
         res.send(row);  
     });
 });
 // 시/군/구읽어오기
-router.get('/getGunCity', function(req, res, next) {
-    console.log(4);
-    conn.query('SELECT * FROM contry', function(err, row) {
-        console.log(3);
+router.get('/getGunCity:seq', function(req, res, next) {
+    let city_code  = req.params.seq;
+    
+    conn.query('SELECT * FROM contry WHERE pre_code = ?',[city_code], function(err, row) {
         res.send(row);  
     });
 });

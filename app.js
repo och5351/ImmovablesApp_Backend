@@ -8,8 +8,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var BoardRouter = require('./routes/Board');
-var CityRouter = require('./routes/City');
 var LoginRouter = require('./routes/Login')
+var AddressRouter = require('./routes/Writing/Address')
 var Map = require('./routes/Map')
 
 var app = express();
@@ -27,10 +27,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 경로 확인
 app.use('/', indexRouter);
-app.use('/api/city', CityRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/board', BoardRouter)
 app.use('/api/login', LoginRouter)
+app.use('/api/Address', AddressRouter)
 app.use('/api/map', Map)
 
 // catch 404 and forward to error handler

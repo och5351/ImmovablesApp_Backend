@@ -34,8 +34,8 @@ router.get('/getApart?/:cityCode/:contryCode/:townCode/:searchWord', function(re
     let cityCode  = req.params.cityCode;
     let contryCode  = req.params.contryCode;
     let townCode  = req.params.townCode;
-    let searchWord  = req.params.searchWord;
-    conn.query("SELECT immovable_name, rea FROM apartimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE '%?%'",
+    let searchWord  = '%'+req.params.searchWord+'%';
+    conn.query("SELECT immovable_name, rea FROM apartimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE ?",
     [cityCode,contryCode,townCode,searchWord], function(err, row) {
         res.send(row);  
     });
@@ -45,8 +45,8 @@ router.get('/getOfficetel?/:cityCode/:contryCode/:townCode/:searchWord', functio
     let cityCode  = req.params.cityCode;
     let contryCode  = req.params.contryCode;
     let townCode  = req.params.townCode;
-    let searchWord  = req.params.searchWord;
-    conn.query("SELECT immovable_name, rea FROM officetelimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE '%?%'",
+    let searchWord  = '%'+req.params.searchWord+'%';
+    conn.query("SELECT immovable_name, rea FROM officetelimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE ?",
     [cityCode,contryCode,townCode,searchWord], function(err, row) {
         res.send(row);  
     });
@@ -56,8 +56,8 @@ router.get('/getVilla?/:cityCode/:contryCode/:townCode/:searchWord', function(re
     let cityCode  = req.params.cityCode;
     let contryCode  = req.params.contryCode;
     let townCode  = req.params.townCode;
-    let searchWord  = req.params.searchWord;
-    conn.query("SELECT immovable_name, rea FROM villaimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE '%?%'",
+    let searchWord  = '%'+req.params.searchWord+'%';
+    conn.query("SELECT immovable_name, rea FROM villaimmovables WHERE cityCode = ? AND contryCode = ? AND townCode = ? AND immovable_name LIKE ?",
     [cityCode,contryCode,townCode,searchWord], function(err, row) {
         res.send(row);  
     });

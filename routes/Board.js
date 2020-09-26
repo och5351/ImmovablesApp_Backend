@@ -32,12 +32,4 @@ router.get('/getWishPost', function(req, res, next) {
 });
 
 
-// 방 구매하기 작성글 post
-router.post('/postSell', function(req,res,next){
-    conn.query('SELECT * FROM WishInfo', function(err, row) {
-        res.send(row);        
-    });
-})
-
-
 module.exports = router;

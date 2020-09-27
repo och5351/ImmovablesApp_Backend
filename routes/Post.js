@@ -2,25 +2,25 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser')
 router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({extended: true}));
 const multer = require('multer')
 // mysql 선언
 var dbConObj = require('../lib/dbConnector');
 var conn = dbConObj.init();
 
 // multer 정리
-
-
-const Storage = multer.diskStorage({
+multer({
+  limits: {fieldSize: 25 * 1024 * 1024},
+});
+const sellStorage = multer.diskStorage({
     destination(req, file, callback) {
-      callback(null, 'images/');
+      callback(null, 'public/images/sellImages');
     },
     filename(req, file, callback) {
-      callback(null, `${file.uri}_${Date.now()}`);
-    },
-    limits: { fileSize: 5 * 1024 * 1024 },
+       callback(null, `${file.originalname}_${Date.now()}`);
+     },
   });
-const upload = multer({ storage: Storage });
-
+const sellUpload = multer({ storage: sellStorage });
 
 
 /* GET comments listing. */
@@ -29,15 +29,28 @@ router.get('/', function(req, res, next) {
 });
 
 // 방 구매하기 작성글 post
-router.post('/postSell', upload.single('photo'),function(req,res,next){
-    
-    console.log(req.files)
-    console.log(req.body)
-    res.status(200).json({
+router.post('/postSell', sellUpload.any('photo',5),function(req,res,next){
+
+  var imgTemp = req.files
+  let imgPathString = ''
+
+  imgTemp.forEach(element => {
+    imgPathString += element.path + ',';
+  });
+ 
+  imgPathString=imgPathString!=''?imgPathString:0
+  preference = req.body.preference!=''?req.body.preference:0
+  conn.query('INSERT INTO wishinfo(title, author, content, price, location, att, img, preference) VALUES(?, ?, ?, ?, ?, ?, ?, ?);',
+  [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location, req.body.att, imgPathString ,preference], function(err, row) {
+    if(err){
+      res.send(err)
+    }else{
+      res.status(200).json({
         message: 'success!',
-    })
-    
-})
+      })
+    }
+  })
+});
 
 
 module.exports = router;

@@ -31,7 +31,7 @@ app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/board', BoardRouter)
 app.use('/api/login', LoginRouter)
-app.use('/api/Post', Post)
+app.use('/api/post', Post)
 app.use('/api/Address', AddressRouter)
 app.use('/api/map', Map)
 

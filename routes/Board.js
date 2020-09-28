@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs')
 
 // mysql 선언
 var dbConObj = require('../lib/dbConnector');
@@ -31,5 +32,17 @@ router.get('/getWishPost', function(req, res, next) {
     });
 });
 
+router.get('/getSellImg/:name', function(req,res, next){
+    var filename = req.params.name;
+    var path = 'public/images/sellImages/'
+    fs.readFile(path + filename,              
+        function (err, data)
+        {
+            res.writeHead(200, { "Context-Type": "image/jpg" });
+            res.write(data);   
+            res.end();  
+        }
+    );
+})
 
 module.exports = router;

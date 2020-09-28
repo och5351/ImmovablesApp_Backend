@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs')
 var bodyParser = require('body-parser')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended: true}));
@@ -35,7 +36,7 @@ router.post('/postSell', sellUpload.any('photo',5),function(req,res,next){
   let imgPathString = ''
 
   imgTemp.forEach(element => {
-    imgPathString += element.path + ',';
+    imgPathString += element.path.split('/').pop() + ',';
   });
  
   imgPathString=imgPathString!=''?imgPathString:0

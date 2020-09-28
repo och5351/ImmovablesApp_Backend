@@ -17,10 +17,7 @@ router.post('/checkUser', function(req, res) {
       }
       else{
         count = result[0].id;
-      }
-      
-  });
-  // select 구문오류. 
+        // select 구문오류. 
   if(count == -1){
     res.send({
       logs: "회원 정보 검색중 오류가 발생하였습니다.",
@@ -60,6 +57,9 @@ router.post('/checkUser', function(req, res) {
     });
     console.log("update success");
   }
+      }
+      
+  });
 });
 
 router.post('/chinfo', function(req, res){

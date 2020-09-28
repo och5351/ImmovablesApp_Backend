@@ -29,6 +29,11 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
+// 본인 작성글 삭제하기
+router.post('/postDelete', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
 // 방 구매하기 작성글 post
 router.post('/postSell', sellUpload.any('photo',5),function(req,res,next){
 
@@ -53,5 +58,10 @@ router.post('/postSell', sellUpload.any('photo',5),function(req,res,next){
   })
 });
 
+// 방 거래하기 작성글 post
+router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
+
+  
+});
 
 module.exports = router;

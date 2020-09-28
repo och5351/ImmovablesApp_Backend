@@ -12,21 +12,37 @@ router.post('/checkUser', function(req, res) {
   var selectQuery = 'SELECT count(*) as id FROM user WHERE email = ? ';
   let count = -1;
   conn.query(selectQuery, data[0], function(err, result) {
-      if(!err) {
-        count = result[0].id;
-      }
-      else{
+      if(err) {
         console.log(err);
       }
+      else{
+        count = result[0].id;
+      }
+      
   });
+  // select 구문오류. 
+  if(count == -1){
+    res.send({
+      logs: "회원 정보 검색중 오류가 발생하였습니다.",
+      values: -1,
+    });
+    console.log("select error");
+  }
   // 회원정보가 db에 저장되어있지 않으면 추가해줍니다.
-  if (count == 0){    
+  else if (count == 0){    
     var insertQuery = 'INSERT INTO user(email, uid, name) VALUES (?, ?, ?)';
     conn.query(insertQuery, [data[0], data[1], data[2]], function(err){
       if(err){
         console.log(err);
       }
+      else{
+        res.send({
+          logs: "회원가입 성공.",
+          values: 0,
+        });
+      }
     });
+    console.log("insert success");
   }
   // 회원정보가 db에 저장되어있다면 update 해줍니다 (이름. uid는 고정값이라 변동이 없습니다.).
   else{
@@ -35,7 +51,14 @@ router.post('/checkUser', function(req, res) {
       if(err){
         console.log(err);
       }
+      else{
+        res.send({
+          logs: "이미 가입된 회원입니다. 회원정보 수정 성공.",
+          values: 1,
+        });
+      }
     });
+    console.log("update success");
   }
 });
 

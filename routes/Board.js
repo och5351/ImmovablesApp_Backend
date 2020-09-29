@@ -9,7 +9,7 @@ var conn = dbConObj.init();
 /* GET comments listing. */
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');
-});
+}); 
 
 // 구매 희망 글
 router.get('/getPost', function(req, res, next) {

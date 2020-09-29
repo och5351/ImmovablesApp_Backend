@@ -46,7 +46,7 @@ router.post('/postSell', sellUpload.any('photo',5),function(req,res,next){
  
   imgPathString=imgPathString!=''?imgPathString:0
   preference = req.body.preference!=''?req.body.preference:0
-  conn.query('INSERT INTO wishinfo(title, author, content, price, location, img, preference) VALUES(?, ?, ?, ?, ?, ?, ?);',
+  conn.query('INSERT INTO wishinfo(title, author, content, price, location, img, preference) VALUES(?, ?, ?, ?, ?, ?, ?)',
   [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location,  imgPathString ,preference], function(err, row) {
     if(err){
       res.send(err)

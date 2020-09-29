@@ -13,14 +13,14 @@ router.get('/', function(req, res, next) {
 
 // 구매 희망 글
 router.get('/getPost', function(req, res, next) {
-    conn.query('SELECT * FROM wishinfo WHERE att = 1', function(err, row) {
+    conn.query('SELECT * FROM wishinfo', function(err, row) {
         res.send(row);        
     });
 });
 
 // 거래 희망 글
 router.get('/getPost2', function(req, res, next) {
-    conn.query('SELECT * FROM wishinfo WHERE att = 2', function(err, row) {
+    conn.query('SELECT * FROM wishinfo', function(err, row) {
         res.send(row);        
     });
 });

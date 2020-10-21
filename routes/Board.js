@@ -36,9 +36,9 @@ router.get('/getWishPost', function(req, res, next) {
     });
 });
 
-router.get('/getSellImg/:name', function(req,res, next){
+router.get('/getWishImg/:name', function(req,res, next){
     var filename = req.params.name;
-    var path = 'public/images/sellImages/'
+    var path = 'public/images/wishImages/'
     fs.readFile(path + filename,              
         function (err, data)
         {

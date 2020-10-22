@@ -85,7 +85,7 @@ router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
   [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
   req.body.parking, req.body.immovabletype, req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet], function(err, row) {
     if(err){
-      res.send(err)
+      res.send(err) 
     }else{
       res.status(200).json({
         message: 'success!',

@@ -23,7 +23,7 @@ router.get('/getPost', function(req, res, next) {
 
 // 거래 희망 글
 router.get('/getDealPost', function(req, res, next) {
-    conn.query('SELECT * FROM dealinfo;', function(err, row) {
+    conn.query('SELECT * FROM dealinfo', function(err, row) {
     
         res.send(row);        
     });

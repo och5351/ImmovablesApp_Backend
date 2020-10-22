@@ -22,8 +22,8 @@ router.get('/getPost', function(req, res, next) {
 });
 
 // 거래 희망 글
-router.get('/getPost2', function(req, res, next) {
-    conn.query('SELECT * FROM wishinfo;', function(err, row) {
+router.get('/getDealPost', function(req, res, next) {
+    conn.query('SELECT * FROM dealinfo;', function(err, row) {
     
         res.send(row);        
     });
@@ -31,7 +31,7 @@ router.get('/getPost2', function(req, res, next) {
 
 // 구매 희망 본문 읽어 오기
 router.get('/getWishPost', function(req, res, next) {
-    conn.query('SELECT * FROM WishInfo', function(err, row) {
+    conn.query('SELECT * FROM wishInfo', function(err, row) {
         res.send(row);        
     });
 });
@@ -48,5 +48,16 @@ router.get('/getWishImg/:name', function(req,res, next){
         }
     );
 })
-
+router.get('/getDealImg/:name', function(req,res, next){
+    var filename = req.params.name;
+    var path = 'public/images/dealImages/'
+    fs.readFile(path + filename,              
+        function (err, data)
+        {
+            res.writeHead(200, { "Context-Type": "image/jpg" });
+            res.write(data);   
+            res.end();  
+        }
+    );
+})
 module.exports = router;

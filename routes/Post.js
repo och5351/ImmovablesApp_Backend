@@ -24,7 +24,7 @@ const wishStorage = multer.diskStorage({
 
 const sellStorage = multer.diskStorage({
   destination(req, file, callback) {
-    callback(null, 'public/images/sellImages');
+    callback(null, 'public/images/dealImages');
   },
   filename(req, file, callback) {
       callback(null, `${file.originalname}_${Date.now()}`);
@@ -46,7 +46,7 @@ router.post('/postDelete', function(req, res, next) {
 
 // 방 구매하기 작성글 post
 router.post('/postWish', wishUpload.any('photo',5),function(req,res,next){
-  console.log(req.files)
+  
   var imgTemp = req.files
   let imgPathString = ''
 
@@ -69,7 +69,7 @@ router.post('/postWish', wishUpload.any('photo',5),function(req,res,next){
   })
 });
 
-// 방 거래하기 작성글 post
+//방 거래하기 작성글 post
 router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
   var imgTemp = req.files
   let imgPathString = ''
@@ -79,13 +79,16 @@ router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
   });
 
   imgPathString=imgPathString!=''?imgPathString:0
-  preference = req.body.preference!=''?req.body.preference:0
-  conn.query('INSERT INTO sellinfo(title, author, content, price, location, img, preference, deposit, area, floor, '+
+  preference = req.body.preference!=null?req.body.preference:0
+  console.log(req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
+    req.body.park, req.body.immovabletype,req.body.purchasetype, req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet)
+  conn.query('INSERT INTO dealinfo(title, author, content, price, location, img, preference, deposit, area, floor, '+
   'parking, immovabletype, purchasetype, management, heater, loan, option_, pet) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,?)',
-  [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
-  req.body.parking, req.body.immovabletype, req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet], function(err, row) {
+  [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.address, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
+  req.body.park, req.body.immovabletype,req.body.purchasetype ,req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet], function(err, row) {
     if(err){
       res.send(err) 
+      console.log()
     }else{
       res.status(200).json({
         message: 'success!',

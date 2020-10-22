@@ -31,7 +31,7 @@ router.get('/getDealPost', function(req, res, next) {
 
 // 구매 희망 본문 읽어 오기
 router.get('/getWishPost', function(req, res, next) {
-    conn.query('SELECT * FROM wishInfo', function(err, row) {
+    conn.query('SELECT * FROM wishinfo', function(err, row) {
         res.send(row);        
     });
 });

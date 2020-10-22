@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var BoardRouter = require('./routes/Board');
 var LoginRouter = require('./routes/Login')
+var LikeRouter = require('./routes/Like')
 var Post = require('./routes/Post')
 var AddressRouter = require('./routes/Address')
 var Map = require('./routes/Map')
@@ -31,6 +32,7 @@ app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/board', BoardRouter)
 app.use('/api/login', LoginRouter)
+app.use('/api/like', LikeRouter)
 app.use('/api/post', Post)
 app.use('/api/Address', AddressRouter)
 app.use('/api/map', Map)

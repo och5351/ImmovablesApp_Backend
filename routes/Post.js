@@ -80,8 +80,6 @@ router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
 
   imgPathString=imgPathString!=''?imgPathString:0
   preference = req.body.preference!=null?req.body.preference:0
-  console.log(req.body.title, req.body.user, req.body.contents, req.body.price, req.body.location, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
-    req.body.park, req.body.immovabletype,req.body.purchasetype, req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet)
   conn.query('INSERT INTO dealinfo(title, author, content, price, location, img, preference, deposit, area, floor, '+
   'parking, immovabletype, purchasetype, management, heater, loan, option_, pet) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,?)',
   [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.address, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
@@ -89,6 +87,22 @@ router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
     if(err){
       res.send(err) 
       console.log()
+    }else{
+      res.status(200).json({
+        message: 'success!',
+      })
+    }
+  })
+});
+
+// 입찰 post
+router.post('/Bidding', function(req,res,next){
+  var params = [req.body.email , req.body.author, req.body.idx];
+  conn.query('UPDATE dealinfo SET participant = CASE WHEN participantCount < 5 THEN concat(participant, ?) ELSE participant END, participantCount = CASE WHEN participantCount < 5 THEN participantCount + 1 ELSE participantCount END WHERE author = ? and idx = ?',
+  params, function(err, row) {
+    if(err){
+      console.log(err)
+      res.send(err)
     }else{
       res.status(200).json({
         message: 'success!',

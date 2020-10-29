@@ -80,9 +80,9 @@ router.post('/postTrade', sellUpload.any('photo',5),function(req,res,next){
 
   imgPathString=imgPathString!=''?imgPathString:0
   preference = req.body.preference!=null?req.body.preference:0
-  conn.query('INSERT INTO dealinfo(title, author, content, price, location, img, preference, deposit, area, floor, '+
+  conn.query('INSERT INTO dealinfo(title, author, content, type, price, location, img, preference, deposit, area, floor, '+
   'parking, immovabletype, purchasetype, management, heater, loan, option_, pet) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,? ,?)',
-  [req.body.title, req.body.user, req.body.contents, req.body.price, req.body.address, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
+  [req.body.title, req.body.user, req.body.contents,req.body.tradeType, req.body.price, req.body.address, imgPathString , preference, req.body.deposit, req.body.area, req.body.floor,
   req.body.park, req.body.immovabletype,req.body.purchasetype ,req.body.management, req.body.heater, req.body.loan, req.body.option_, req.body.pet], function(err, row) {
     if(err){
       res.send(err) 

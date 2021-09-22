@@ -18,7 +18,8 @@ node {
     // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
     stage('Ready[install node modules]'){  
         bat "echo 'Install node modules'"
-        bat "cd C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/Immovables_dev_back"
+        // bat "cd C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/Immovables_dev_back"
+        bat "npm audit fix"
         bat "npm install"
         //sh "'${mvnHome}/bin/mvn' clean package"
     }

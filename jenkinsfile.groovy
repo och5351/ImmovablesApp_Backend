@@ -2,24 +2,26 @@
 def app
 
 node {
-    // gitlab으로부터 소스 다운하는 stage
+    // github으로부터 소스 다운하는 stage
     stage('Checkout') {
             checkout scm   
     }
  
-    // mvn 툴 선언하는 stage, 필자의 경우 maven 3.6.0을 사용중
-    stage('Ready'){  
+    // windows pm인 chocolately 를 활용 하여 nodejs 설치 및 준비 stage
+    stage('Ready[install node.js lts]'){  
+        bat "echo 'Install nodejs-lts'"
         bat "choco install nodejs-lts -y"
         // sh "echo 'Ready to build'"
         // mvnHome = tool 'Maven 3.6.0'
     }
-    /*
-    // mvn 빌드로 jar파일을 생성하는 stage
-    stage('Build'){  
-        sh "echo 'Build Spring Boot Jar'"
-        sh "'${mvnHome}/bin/mvn' clean package"
+    
+    // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
+    stage('Ready[install node modules]'){  
+        bat "echo 'Install node modules'"
+        bat "dir"
+        //sh "'${mvnHome}/bin/mvn' clean package"
     }
-
+    /*
     //sonarqube 정적분석 실행하는 stage, jenkins와 sonarqube연동을 하지 않았다면 이부분은 주석처리
     stage('Static Code Analysis') {  
         sh "'${mvnHome}/bin/mvn' clean verify sonar:sonar -Dsonar.projectName=pipeline_test -Dsonar.projectKey=pipeline_test -Dsonar.projectVersion=$BUILD_NUMBER"

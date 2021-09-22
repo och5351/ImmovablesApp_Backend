@@ -18,7 +18,7 @@ node {
     // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
     stage('Ready[install node modules]'){  
         bat "echo 'Install node modules'"
-        bat "dir"
+        bat "npm install"
         //sh "'${mvnHome}/bin/mvn' clean package"
     }
     /*

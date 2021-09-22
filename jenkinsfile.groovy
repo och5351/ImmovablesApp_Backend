@@ -24,6 +24,13 @@ node {
         bat "npm install"
         //sh "'${mvnHome}/bin/mvn' clean package"
     }
+
+    // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
+    stage('Build'){  
+        bat "echo 'Build!'"
+        // bat "cd C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/Immovables_dev_back"
+        bat "npm build"
+    }
     /*
     //sonarqube 정적분석 실행하는 stage, jenkins와 sonarqube연동을 하지 않았다면 이부분은 주석처리
     stage('Static Code Analysis') {  

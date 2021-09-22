@@ -9,7 +9,7 @@ node {
  
     // mvn 툴 선언하는 stage, 필자의 경우 maven 3.6.0을 사용중
     stage('Ready'){  
-        shell "choco -?"
+        bat "choco -?"
         // sh "echo 'Ready to build'"
         // mvnHome = tool 'Maven 3.6.0'
     }
@@ -48,6 +48,6 @@ node {
     }
     */
     stage('Complete') {
-        shell "echo 'The end'"
+        bat "echo 'The end'"
     }
 }

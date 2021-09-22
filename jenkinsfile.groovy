@@ -57,7 +57,7 @@ node {
     stage('Kubernetes deploy') {
         // kubernetesDeploy configs: "test.yaml", 
         kubeconfigId: 'och_k8s'
-        bat "kubectl --kubeconfig=/u01/kube-config.yaml get no"
+        bat "kubectl --kubeconfig=C:/jenkins_k8s/config get no"
         //sh "kubectl get no"
     }
     

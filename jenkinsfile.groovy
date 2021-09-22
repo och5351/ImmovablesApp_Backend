@@ -57,8 +57,8 @@ node {
     stage('Kubernetes deploy') {
         // kubernetesDeploy configs: "test.yaml", 
         kubeconfigId: 'och_k8s'
-        // sh "/usr/local/bin/kubectl --kubeconfig=/u01/kube-config.yaml rollout restart deployment/test-deployment -n zuno"
-        sh "kubectl get no"
+        bat "kubectl --kubeconfig=/u01/kube-config.yaml get no"
+        //sh "kubectl get no"
     }
     
     stage('Complete') {

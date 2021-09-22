@@ -9,7 +9,7 @@ node {
  
     // mvn 툴 선언하는 stage, 필자의 경우 maven 3.6.0을 사용중
     stage('Ready'){  
-        bat "choco install nodejs-lts"
+        bat "choco install nodejs-lts -y"
         // sh "echo 'Ready to build'"
         // mvnHome = tool 'Maven 3.6.0'
     }

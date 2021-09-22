@@ -48,6 +48,6 @@ node {
     }
     */
     stage('Complete') {
-        sh "echo 'The end'"
+        shell "echo 'The end'"
     }
 }

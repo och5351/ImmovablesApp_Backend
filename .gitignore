@@ -248,6 +248,6 @@ dmypy.json
 
 # dumpfile & dbConnector
 dumpfile/*
-dumpfile/*.sql
 bin/www
-lib/dbConnector.js
+lib/*
+public/images/dealImages/*

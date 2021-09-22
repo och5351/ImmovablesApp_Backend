@@ -34,7 +34,7 @@ node {
     stage('Build image'){   
         app = docker.build("och5351/expresstest")
     }
-    
+
    
     //docker image를 push하는 stage, 필자는 dockerhub에 이미지를 올렸으나 보통 private image repo를 별도 구축해서 사용하는것이 좋음
     //docker.withRegistry에 dockerhub는 앞서 설정한 dockerhub credentials의 ID이다.
@@ -44,14 +44,16 @@ node {
             app.push("latest")
         }
     }
-     /*
+     
     // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.
     // kubeconfigID에는 앞서 설정한 Kubernetes Credentials를 입력하고 'sh'는 쿠버네티스 클러스터에 원격으로 실행시킬 명령어를 기술한다.
     stage('Kubernetes deploy') {
-        kubernetesDeploy configs: "test.yaml", kubeconfigId: 'Kuberconfig'
-        sh "/usr/local/bin/kubectl --kubeconfig=/u01/kube-config.yaml rollout restart deployment/test-deployment -n zuno"
+        // kubernetesDeploy configs: "test.yaml", 
+        kubeconfigId: 'och_k8s'
+        // sh "/usr/local/bin/kubectl --kubeconfig=/u01/kube-config.yaml rollout restart deployment/test-deployment -n zuno"
+        sh "kubectl get no"
     }
-    */
+    
     stage('Complete') {
         bat "echo 'The end'"
     }

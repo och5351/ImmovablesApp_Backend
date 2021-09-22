@@ -2,6 +2,7 @@
 def app
 
 node {
+    def DATE = new Date();
     // github으로부터 소스 다운하는 stage
     stage('Checkout') {
             checkout scm   
@@ -41,7 +42,7 @@ node {
     stage('Push image') {   
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
             app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+            //app.push("latest")
         }
     }
      

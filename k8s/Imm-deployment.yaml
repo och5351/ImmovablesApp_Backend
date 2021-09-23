@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immovables-serverside
+  namespace: ns-immovables
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: immovables-serverside
+  template:
+    metadata:
+      labels:
+        app: immovables-serverside
+    spec:
+      containers:
+        - name: 
+          image: och5351/expresstest:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          env:
+            - name: DATE
+              value: 'DATE_STRING'
+      #imagePullSecrets:
+      #  - name: my-secret
+    nodeSelector: och2

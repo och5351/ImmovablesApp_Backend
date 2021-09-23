@@ -39,7 +39,7 @@ node {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
-        bat "docker rmi ${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
+        bat "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
     }
      
     // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.

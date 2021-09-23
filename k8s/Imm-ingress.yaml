@@ -20,6 +20,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: jenkins-leader-svc
+            name: immovables-serverside
             port:
               number: 80

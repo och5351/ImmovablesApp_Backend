@@ -13,7 +13,8 @@ WORKDIR /app
 ADD . /app
 
 # npm install 을 실행
-RUN npm install \
+RUN npm audit fix \
+&& npm install \
 && npm build
 
 #환경변수 NODE_ENV 의 값을 development 로 설정

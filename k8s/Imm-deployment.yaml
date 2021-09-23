@@ -14,7 +14,7 @@ spec:
         app: immovables-serverside
     spec:
       containers:
-        - name: 
+        - name: immovables-serverside
           image: och5351/expresstest:latest
           ports:
             - containerPort: 3000

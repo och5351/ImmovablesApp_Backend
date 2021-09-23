@@ -2,6 +2,8 @@
 def app
 
 node {
+    def dockerId = "och5351"
+    def dockerRepo = "expresstest"
     def DATE = new Date();
     // github으로부터 소스 다운하는 stage
     stage('Checkout') {
@@ -9,28 +11,15 @@ node {
     }
  
     // windows pm인 chocolately 를 활용 하여 nodejs 설치 및 준비 stage
-    stage('Ready[install node.js lts]'){  
-        bat "echo 'Install nodejs-lts!'"
+    stage('Build'){  
         bat "choco install nodejs-lts -y"
         // sh "echo 'Ready to build'"
         // mvnHome = tool 'Maven 3.6.0'
-    }
-    
-    // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
-    stage('Ready[install node modules]'){  
-        bat "echo 'Install node modules!'"
-        // bat "cd C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/Immovables_dev_back"
         bat "npm audit fix"
         bat "npm install"
-        //sh "'${mvnHome}/bin/mvn' clean package"
-    }
-
-    // npm으로 필요한 node moudle 설치 후 빌드 준비하는 stage
-    stage('Build'){  
-        bat "echo 'Build!'"
-        // bat "cd C:/WINDOWS/system32/config/systemprofile/AppData/Local/Jenkins/.jenkins/workspace/Immovables_dev_back"
         bat "npm build"
     }
+    
     /*
     //sonarqube 정적분석 실행하는 stage, jenkins와 sonarqube연동을 하지 않았다면 이부분은 주석처리
     stage('Static Code Analysis') {  
@@ -40,7 +29,7 @@ node {
 
     //dockerfile기반 빌드하는 stage ,git소스 root에 dockerfile이 있어야한다
     stage('Build image'){   
-        app = docker.build("och5351/expresstest")
+        app = docker.build("${dockerId}/${dockerRepo}")
     }
 
     //docker image를 push하는 stage, 필자는 dockerhub에 이미지를 올렸으나 보통 private image repo를 별도 구축해서 사용하는것이 좋음
@@ -50,6 +39,7 @@ node {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
+        bat "docker rmi ${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
     }
      
     // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.

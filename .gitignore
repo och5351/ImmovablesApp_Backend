@@ -250,5 +250,5 @@ dmypy.json
 
 dumpfile/*
 bin/www
-lib/*
+#lib/*
 public/images/dealImages/*

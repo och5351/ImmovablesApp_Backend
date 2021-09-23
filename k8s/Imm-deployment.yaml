@@ -24,4 +24,5 @@ spec:
               value: 'DATE_STRING'
       #imagePullSecrets:
       #  - name: my-secret
-  nodeSelector: och2
+      nodeSelector:
+        kubernetes.io/hostname: och2

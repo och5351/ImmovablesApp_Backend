@@ -28,7 +28,7 @@ node {
     */
 
     //dockerfile기반 빌드하는 stage ,git소스 root에 dockerfile이 있어야한다
-    stage('Build image'){   
+    stage('Build docker image'){   
         app = docker.build("${dockerId}/${dockerRepo}")
     }
 

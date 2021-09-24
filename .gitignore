@@ -253,3 +253,4 @@ dumpfile/*
 #bin/www
 #lib/*
 public/images/dealImages/*
+k8s/Imm-ingress.yaml

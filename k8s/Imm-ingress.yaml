@@ -16,7 +16,7 @@ spec:
   - host: opyter.iptime.org
     http:
       paths:
-      - path: /
+      - path: /immovables/*
         pathType: Prefix
         backend:
           service:

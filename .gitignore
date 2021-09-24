@@ -248,6 +248,7 @@ dmypy.json
 
 # dumpfile & dbConnector
 
+.DS_Store
 dumpfile/*
 #bin/www
 #lib/*

@@ -16,10 +16,10 @@ spec:
   - host: opyter.iptime.org
     http:
       paths:
-      - path: /immovables/*
+      - path: /immovables
         pathType: Prefix
         backend:
           service:
-            name: immovables-serverside
+            name: immovables-serverside-svc
             port:
               number: 80

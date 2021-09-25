@@ -20,6 +20,7 @@ node {
         bat "npm build"
     }
     
+    
     /*
     //sonarqube 정적분석 실행하는 stage, jenkins와 sonarqube연동을 하지 않았다면 이부분은 주석처리
     stage('Static Code Analysis') {  

@@ -123,4 +123,3 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       
     }   
 }
-*/

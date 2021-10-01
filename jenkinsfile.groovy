@@ -74,24 +74,24 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       command: 'cat',
       ttyEnabled: true
     ), 
-    containerTemplate(
-      name: 'node', // container 에 node 설정
-      image: 'node:14.18-alpine3.11',
-      command: 'cat',
-      ttyEnabled: true
-    ),
-    containerTemplate(
-      name: 'docker',
-      image: 'docker',
-      command: 'cat',
-      ttyEnabled: true
-    ),
-    containerTemplate(
-      name: 'kubectl', 
-      image: 'bitnami/kubectl:1.21.5', 
-      command: 'cat', 
-      ttyEnabled: true
-    ),
+    // containerTemplate(
+    //   name: 'node', // container 에 node 설정
+    //   image: 'node:14.18-alpine3.11',
+    //   command: 'cat',
+    //   ttyEnabled: true
+    // ),
+    // containerTemplate(
+    //   name: 'docker',
+    //   image: 'docker',
+    //   command: 'cat',
+    //   ttyEnabled: true
+    // ),
+    // containerTemplate(
+    //   name: 'kubectl', 
+    //   image: 'bitnami/kubectl:1.21.5', 
+    //   command: 'cat', 
+    //   ttyEnabled: true
+    // ),
   ],
   volumes: [ 
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 

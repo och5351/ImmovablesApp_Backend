@@ -98,6 +98,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
   ]
 )
 
+
 {
     node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
         def dockerId = "och5351"

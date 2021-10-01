@@ -112,7 +112,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
             container('git') {
                 // https://gitlab.com/gitlab-org/gitlab-foss/issues/38910
                 checkout([$class: 'GitSCM',
-                    branches: [[name: '*/devlop']],
+                    branches: [[name: '*/develop']],
                     userRemoteConfigs: [
                         [url: 'https://github.com/och5351/Backend.git']//, credentialsId: 'gitlab-account']
                     ],

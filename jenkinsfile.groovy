@@ -114,7 +114,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
                 checkout([$class: 'GitSCM',
                     branches: [[name: '*/develop']],
                     userRemoteConfigs: [
-                        [url: 'https://github.com/och5351/Backend.git']//, credentialsId: 'gitlab-account']
+                        [url: 'https://github.com/och5351/ImmovablesApp_Backend.git']//, credentialsId: 'gitlab-account']
                     ],
                 ])
             }

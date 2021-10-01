@@ -111,12 +111,13 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         stage('Clone repository') {
             container('git') {
                 // https://gitlab.com/gitlab-org/gitlab-foss/issues/38910
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/develop']],
-                    userRemoteConfigs: [
-                        [url: 'https://github.com/och5351/ImmovablesApp_Backend.git']//, credentialsId: 'gitlab-account']
-                    ],
-                ])
+                // checkout([$class: 'GitSCM',
+                //     branches: [[name: '*/develop']],
+                //     userRemoteConfigs: [
+                //         [url: 'https://github.com/och5351/ImmovablesApp_Backend.git']//, credentialsId: 'gitlab-account']
+                //     ],
+                // ])
+                echo 'asdf;laksjdf;laksdjfl;kasjdf;lkajsdfl;kas'
             }
         }
         

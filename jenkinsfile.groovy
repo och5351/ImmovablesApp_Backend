@@ -58,12 +58,12 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       command: 'cat',
       ttyEnabled: true
     ),
-    // containerTemplate(
-    //   name: 'docker',
-    //   image: 'docker',
-    //   command: 'cat',
-    //   ttyEnabled: true
-    // ),
+    containerTemplate(
+      name: 'docker',
+      image: 'docker',
+      command: 'cat',
+      ttyEnabled: true
+    ),
     // containerTemplate(
     //   name: 'kubectl', 
     //   image: 'bitnami/kubectl:1.21.5', 
@@ -76,28 +76,41 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
   ]
 )
 
-
 {
     node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
         def dockerId = "och5351"
         def dockerRepo = "expresstest"
         def DATE = new Date();
-        // def DOCKER_IMAGE_NAME = "och5351/kubernetes_test"           // 생성하는 Docker image 이름
-        // def DOCKER_IMAGE_TAGS = "test_app"  // 생성하는 Docker image 태그
-        // def USERNAME = "och5351"
         
+        // git clone 스테이지
         stage('Clone repository') {
-            container('git') {
-                checkout scm
+          container('git') {
+              checkout scm
+          }
+        }
+        // node build 스테이지
+        stage('node build') {
+          container('node') {
+              sh "npm audit fix"
+              sh "npm install"
+              sh "npm build"
+          }
+        }
+        // docker image build 스테이지
+        stage('docker build') {
+          container('docker') {
+              app = docker.build("${dockerId}/${dockerRepo}")
+          }
+        }
+        //docker.withRegistry에 dockerhub는 앞서 설정한 dockerhub credentials의 ID이다.
+        stage('Push image') {   
+          container('docker') {
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                app.push("${env.BUILD_NUMBER}")
+                app.push("latest")
             }
-        },
-        stage('Build') {
-            container('node') {
-                sh "npm audit fix"
-                sh "npm install"
-                sh "npm build"
-            }
-        },
-
+            sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
+          }
+      }
     }   
 }

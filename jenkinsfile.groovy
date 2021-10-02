@@ -10,6 +10,7 @@
 def dockerId = "och5351"
 def dockerRepo = "expresstest"
 def SLACK_CHANNEL = "develop-deployment-alarm"
+def NAMESPACE = "ns-immovables"
 def DATE = new Date();
 
 /* Slack 시작 알람 함수 */
@@ -73,7 +74,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       try {
         // Start
         stage('Start'){
-          notifyStarted(SLACK_CHANNEL)
+          // notifyStarted(SLACK_CHANNEL)
         }
 
         // git clone 스테이지
@@ -92,7 +93,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         }
         // docker image build 스테이지
         stage('docker build') {
-          notifyDocker(SLACK_CHANNEL)
+          // notifyDocker(SLACK_CHANNEL)
           container('docker') {
               app = docker.build("${dockerId}/${dockerRepo}")
           }
@@ -112,16 +113,18 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         stage('Kubernetes deploy') {
           notifyDeployment(SLACK_CHANNEL)
           container('kubectl') {
+              sh "sed -i.bak 's#DATE_STRING#${DATE}#' ./k8s/Imm-deployment.yaml"
               // sh "kubectl apply -f k8s/"
-              sh "kubectl create ns ns-immovables"
+              sh "kubectl get ns ${NAMESPACE}|| kubectl create ns ${NAMESPACE}"
+              //sh "kubectl create ns ns-immovables"
               sh "kubectl get ns"
           }
         }
-        notifySuccessful(SLACK_CHANNEL)
+        // notifySuccessful(SLACK_CHANNEL)
       } catch(e) {
         /* 배포 실패 시 */
         currentBuild.result = "FAILED"
-        notifyFailed(SLACK_CHANNEL)
+        // notifyFailed(SLACK_CHANNEL)
     }
   }
 }

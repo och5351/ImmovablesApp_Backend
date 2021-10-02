@@ -5,28 +5,6 @@
 //     def dockerId = "och5351"
 //     def dockerRepo = "expresstest"
 //     def DATE = new Date();
-//     // github으로부터 소스 다운하는 stage
-//     stage('Checkout') {
-//             checkout scm   
-//     }
- 
-//     // windows pm인 chocolately 를 활용 하여 nodejs 설치 및 준비 stage
-//     stage('Build'){  
-//         bat "choco install nodejs-lts -y"
-//         // sh "echo 'Ready to build'"
-//         // mvnHome = tool 'Maven 3.6.0'
-//         bat "npm audit fix"
-//         bat "npm install"
-//         bat "npm build"
-//     }
-    
-    
-//     /*
-//     //sonarqube 정적분석 실행하는 stage, jenkins와 sonarqube연동을 하지 않았다면 이부분은 주석처리
-//     stage('Static Code Analysis') {  
-//         sh "'${mvnHome}/bin/mvn' clean verify sonar:sonar -Dsonar.projectName=pipeline_test -Dsonar.projectKey=pipeline_test -Dsonar.projectVersion=$BUILD_NUMBER"
-//     }
-//     */
 
 //     //dockerfile기반 빌드하는 stage ,git소스 root에 dockerfile이 있어야한다
 //     stage('Build docker image'){   
@@ -74,12 +52,12 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       command: 'cat',
       ttyEnabled: true
     ), 
-    // containerTemplate(
-    //   name: 'node', // container 에 node 설정
-    //   image: 'node:14.18-alpine3.11',
-    //   command: 'cat',
-    //   ttyEnabled: true
-    // ),
+    containerTemplate(
+      name: 'node', // container 에 node 설정
+      image: 'node:14.18-alpine3.11',
+      command: 'cat',
+      ttyEnabled: true
+    ),
     // containerTemplate(
     //   name: 'docker',
     //   image: 'docker',
@@ -110,17 +88,16 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         
         stage('Clone repository') {
             container('git') {
-                // https://gitlab.com/gitlab-org/gitlab-foss/issues/38910
-                // checkout([$class: 'GitSCM',
-                //     branches: [[name: '*/develop']],
-                //     userRemoteConfigs: [
-                //         [url: 'https://github.com/och5351/ImmovablesApp_Backend.git']//, credentialsId: 'gitlab-account']
-                //     ],
-                // ])
                 checkout scm
             }
-        }
-        
-      
+        },
+        stage('Build') {
+            container('node') {
+                sh "npm audit fix"
+                sh "npm install"
+                sh "npm build"
+            }
+        },
+
     }   
 }

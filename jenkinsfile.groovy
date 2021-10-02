@@ -117,7 +117,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
               // sh "kubectl apply -f k8s/"
               sh "kubectl get ns ${NAMESPACE}|| kubectl create ns ${NAMESPACE}"
               //sh "kubectl create ns ns-immovables"
-              sh "kubectl get ns"
+              sh "kubectl apply -f ./k8s/"
           }
         }
         // notifySuccessful(SLACK_CHANNEL)

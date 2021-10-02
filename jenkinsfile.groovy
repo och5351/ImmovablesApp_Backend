@@ -112,9 +112,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         stage('Kubernetes deploy') {
           notifyDeployment(SLACK_CHANNEL)
           container('kubectl') {
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                sh "kubectl apply -f k8s/"
-            }
+              sh "kubectl apply -f k8s/"
           }
         }
         notifySuccessful(SLACK_CHANNEL)

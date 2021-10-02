@@ -98,6 +98,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
 
 {
     node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
+      try {
         // Start
         stage('Start'){
           notifyStarted(SLACK_CHANNEL)
@@ -140,4 +141,5 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       currentBuild.result = "FAILED"
       notifyFailed(SLACK_CHANNEL)
     }
+  }
 }

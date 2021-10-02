@@ -15,26 +15,31 @@ def DATE = new Date();
 
 /* Slack 시작 알람 함수 */
 def notifyStarted(slack_channel) {
-    slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "CI/CD 를 실행합니다. \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  def DD = new Date();
+  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "CI/CD 를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 /* Slack 도커 알람 함수 */
 def notifyDocker(slack_channel) {
-    slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "도커 이미지 빌드/푸쉬를 실행합니다. \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  def DD = new Date();
+  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "도커 이미지 빌드/푸쉬를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 /* Slack 베포 알람 함수 */
 def notifyDeployment(slack_channel) {
-    slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "배포를 실행합니다. \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  def DD = new Date();
+  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "배포를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 /* Slack 성공 알람 함수 */
 def notifySuccessful(slack_channel) {
-    slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  def DD = new Date();
+  slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 /* Slack 실패 알람 함수 */
 def notifyFailed(slack_channel) {
-  slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+  def DD = new Date();
+  slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name

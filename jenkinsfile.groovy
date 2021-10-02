@@ -108,7 +108,6 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         // def DOCKER_IMAGE_TAGS = "test_app"  // 생성하는 Docker image 태그
         // def USERNAME = "och5351"
         
-        // jenkins Clone Stage는 Jenkins 내부에서 구현
         stage('Clone repository') {
             container('git') {
                 https://gitlab.com/gitlab-org/gitlab-foss/issues/38910

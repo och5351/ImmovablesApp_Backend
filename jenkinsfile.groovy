@@ -44,6 +44,26 @@
      * https://tech.osci.kr/2019/11/21/86026733/
      test
 */
+
+// Pipeline 변수 
+def dockerId = "och5351"
+def dockerRepo = "expresstest"
+def SLACK_CHANNEL = "develop-deployment-alarm"
+def DATE = new Date();
+
+/* Slack 시작 알람 함수 */
+def notifyStarted(slack_channel) {
+    slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+/* Slack 성공 알람 함수 */
+def notifySuccessful(slack_channel) {
+    slackSend (channel: "${slack_channel}", color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+/* Slack 실패 알람 함수 */
+def notifyFailed(slack_channel) {
+  slackSend (channel: "${slack_channel}", color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+
 podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
   containers: [
     containerTemplate(
@@ -78,10 +98,11 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
 
 {
     node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
-        def dockerId = "och5351"
-        def dockerRepo = "expresstest"
-        def DATE = new Date();
-        
+        // Start
+        stage('Start'){
+          notifyStarted(SLACK_CHANNEL)
+        }
+
         // git clone 스테이지
         stage('Clone repository') {
           container('git') {
@@ -112,5 +133,11 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
             sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
           }
       }
-    }   
+
+      notifySuccessful(SLACK_CHANNEL)
+    } catch(e) {
+      /* 배포 실패 시 */
+      currentBuild.result = "FAILED"
+      notifyFailed(SLACK_CHANNEL)
+    }
 }

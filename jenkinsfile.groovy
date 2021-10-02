@@ -1,11 +1,3 @@
-/*
-   * jenkins podtemplete document
-     * https://www.jenkins.io/doc/pipeline/steps/kubernetes/#podtemplate-define-a-podtemplate-to-use-in-the-kubernetes-plugin
-   * 예제 Groovy code 
-     * https://tech.osci.kr/2019/11/21/86026733/
-     test
-*/
-
 // Pipeline 변수 
 def dockerId = "och5351"
 def dockerRepo = "expresstest"
@@ -73,7 +65,6 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
   ]
 )
-
 {
     node('jenkins-slave-pod') {  // 상위에 node 작성 'jenkins-slave-pod' 
       try {

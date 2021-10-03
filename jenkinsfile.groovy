@@ -3,23 +3,22 @@ def dockerId = "och5351"
 def dockerRepo = "expresstest"
 def SLACK_CHANNEL = "develop-deployment-alarm"
 def NAMESPACE = "ns-immovables"
-def DATE = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));
-
+def DATE = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
 
 /* Slack 메시지 알람 함수 */
 def notifyCommon(slack_channel, message) {
-  def DD = new Date(TimeZone.getTimeZone('Asia/Seoul'));
+  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
   slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message} ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 /* Slack 성공 알람 함수 */
 def notifySuccessful(slack_channel) {
-  def DD = new Date(TimeZone.getTimeZone('Asia/Seoul'));
+  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
   slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 /* Slack 실패 알람 함수 */
 def notifyFailed(slack_channel) {
-  def DD = new Date(TimeZone.getTimeZone('Asia/Seoul'));
+  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 

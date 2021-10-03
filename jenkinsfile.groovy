@@ -5,6 +5,7 @@ def SLACK_CHANNEL = "develop-deployment-alarm"
 def NAMESPACE = "ns-immovables"
 def DATE = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));
 
+
 /* Slack 메시지 알람 함수 */
 def notifyCommon(slack_channel, message) {
   def DD = new Date(TimeZone.getTimeZone('Asia/Seoul'));

@@ -3,34 +3,22 @@ def dockerId = "och5351"
 def dockerRepo = "expresstest"
 def SLACK_CHANNEL = "develop-deployment-alarm"
 def NAMESPACE = "ns-immovables"
-def DATE = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
+def DATE = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));
 
-/* Slack 시작 알람 함수 */
-def notifyStarted(slack_channel) {
-  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));;
-  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "CI/CD 를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-}
-
-/* Slack 도커 알람 함수 */
-def notifyDocker(slack_channel) {
-  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));;
-  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "도커 이미지 빌드/푸쉬를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-}
-
-/* Slack 베포 알람 함수 */
-def notifyDeployment(slack_channel) {
-  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));;
-  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "배포를 실행합니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+/* Slack 메시지 알람 함수 */
+def notifyCommon(slack_channel, message) {
+  def DD = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));;
+  slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message} ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
 /* Slack 성공 알람 함수 */
 def notifySuccessful(slack_channel) {
-  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));;
+  def DD = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));;
   slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 /* Slack 실패 알람 함수 */
 def notifyFailed(slack_channel) {
-  def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));;
+  def DD = new Date().format(TimeZone.getTimeZone('Asia/Seoul'));;
   slackSend (channel: "${slack_channel}", color: '#FF0000', message: "CI/CD를 실패 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
@@ -70,7 +58,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       try {
         // Start
         stage('Start'){
-          notifyStarted(SLACK_CHANNEL)
+          notifyCommon(SLACK_CHANNEL,'CI/CD 를 실행합니다.')
         }
 
         // git clone 스테이지
@@ -89,7 +77,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         }
         // docker image build 스테이지
         stage('docker build') {
-          notifyDocker(SLACK_CHANNEL)
+          notifyCommon(SLACK_CHANNEL, '도커 이미지 빌드/푸쉬를 실행합니다.')
           container('docker') {
               app = docker.build("${dockerId}/${dockerRepo}")
           }
@@ -107,7 +95,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.
         // kubeconfigID에는 앞서 설정한 Kubernetes Credentials를 입력하고 'sh'는 쿠버네티스 클러스터에 원격으로 실행시킬 명령어를 기술한다.
         stage('Kubernetes deploy') {
-          //notifyDeployment(SLACK_CHANNEL)
+          notifyCommon(SLACK_CHANNEL, '배포를 실행합니다.')
           container('kubectl') {
               sh "sed -i.bak 's#DATE_STRING#${DATE}#' ./k8s/Imm-deployment.yaml"
               // sh "kubectl apply -f k8s/"

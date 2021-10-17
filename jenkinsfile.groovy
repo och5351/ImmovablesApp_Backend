@@ -33,7 +33,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
     ),
     containerTemplate(
       name: 'gradle',
-      image: 'gradle/7.2-jdk11',
+      image: 'gradle:7.2-jdk11',
       command: 'cat',
       ttyEnabled: true
     ),

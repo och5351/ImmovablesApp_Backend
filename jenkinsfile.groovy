@@ -73,9 +73,9 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         // gradle build 스테이지
         stage('Gradle build') {
           container('gradle') {
-              sh "cd springjava"
+              sh "mv ./springjava/* ./"
               sh "ls"
-              sh "./springjava/gradlew build"
+              sh "./gradlew build"
           }
         }
         // // docker image build 스테이지

@@ -66,7 +66,9 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         // git clone 스테이지
         stage('Clone repository') {
           container('git') {
+              sh "ls"
               checkout scm
+              
           }
         }
         // gradle build 스테이지

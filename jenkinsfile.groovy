@@ -51,6 +51,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
     ),
   ],
   volumes: [ 
+    hostPathVolume(mountPath: '/home/gradle/.gradle', hostPath: '/home/admin/k8s/jenkins/.gradle'),
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'), 
   ]
 )
@@ -72,38 +73,38 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         stage('Gradle build') {
           container('node') {
               sh "cd springjava"
-              sh "./gradlew build"
+              // sh "./gradlew build"
           }
         }
-        // docker image build 스테이지
-        stage('docker build') {
-          notifyCommon(SLACK_CHANNEL, '도커 이미지 빌드/푸쉬를 실행합니다.')
-          container('docker') {
-              app = docker.build("${dockerId}/${dockerRepo_spring}")
-          }
-        }
-        //docker.withRegistry에 dockerhub는 앞서 설정한 dockerhub credentials의 ID이다.
-        stage('Push image') {   
-          container('docker') {
-            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                app.push("${env.BUILD_NUMBER}")
-                app.push("latest")
-            }
-            sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo_spring}:${env.BUILD_NUMBER}"
-          }
-        }
-        // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.
-        // kubeconfigID에는 앞서 설정한 Kubernetes Credentials를 입력하고 'sh'는 쿠버네티스 클러스터에 원격으로 실행시킬 명령어를 기술한다.
-        stage('Kubernetes deploy') {
-          notifyCommon(SLACK_CHANNEL, '배포를 실행합니다.')
-          container('kubectl') {
-              sh "sed -i.bak 's#DATE_STRING#${DATE}#' ./k8s/Imm-deployment.yaml"
-              // sh "kubectl apply -f k8s/"
-              sh "kubectl get ns ${NAMESPACE}|| kubectl create ns ${NAMESPACE}"
-              //sh "kubectl create ns ns-immovables"
-              sh "kubectl apply -f ./k8s/"
-          }
-        }
+        // // docker image build 스테이지
+        // stage('docker build') {
+        //   notifyCommon(SLACK_CHANNEL, '도커 이미지 빌드/푸쉬를 실행합니다.')
+        //   container('docker') {
+        //       app = docker.build("${dockerId}/${dockerRepo_spring}")
+        //   }
+        // }
+        // //docker.withRegistry에 dockerhub는 앞서 설정한 dockerhub credentials의 ID이다.
+        // stage('Push image') {   
+        //   container('docker') {
+        //     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+        //         app.push("${env.BUILD_NUMBER}")
+        //         app.push("latest")
+        //     }
+        //     sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo_spring}:${env.BUILD_NUMBER}"
+        //   }
+        // }
+        // // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.
+        // // kubeconfigID에는 앞서 설정한 Kubernetes Credentials를 입력하고 'sh'는 쿠버네티스 클러스터에 원격으로 실행시킬 명령어를 기술한다.
+        // stage('Kubernetes deploy') {
+        //   notifyCommon(SLACK_CHANNEL, '배포를 실행합니다.')
+        //   container('kubectl') {
+        //       sh "sed -i.bak 's#DATE_STRING#${DATE}#' ./k8s/Imm-deployment.yaml"
+        //       // sh "kubectl apply -f k8s/"
+        //       sh "kubectl get ns ${NAMESPACE}|| kubectl create ns ${NAMESPACE}"
+        //       //sh "kubectl create ns ns-immovables"
+        //       sh "kubectl apply -f ./k8s/"
+        //   }
+        // }
         notifySuccessful(SLACK_CHANNEL)
       } catch(e) {
         /* 배포 실패 시 */

@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://opyter.iptime.org:13306/Immovables
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: och
+    password: WEstart03@(
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    #database: mariadb
+    hibernate:
+      ddl-auto: update

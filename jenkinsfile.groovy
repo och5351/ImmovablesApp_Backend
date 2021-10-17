@@ -1,8 +1,9 @@
 // Pipeline 변수 
 def dockerId = "och5351"
-def dockerRepo = "expresstest"
+// def dockerRepo_exp = "expresstest"
+def dockerRepo_spring = "springtest"
 def SLACK_CHANNEL = "develop-deployment-alarm"
-def NAMESPACE = "ns-immovables"
+def NAMESPACE = "ns-immovables-spring"
 def DATE = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
 
 /* Slack 메시지 알람 함수 */
@@ -11,7 +12,7 @@ def notifyCommon(slack_channel, message) {
   slackSend (channel: "${slack_channel}", color: '#FFFF00', message: "${message} ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 }
 
-/* Slack 성공 알람 함수 */
+/* Slack 성공 알람 함수 *
 def notifySuccessful(slack_channel) {
   def DD = new Date().format("yyyy-MM-dd'T'HH:mm:ss.SSSXXX",TimeZone.getTimeZone('Asia/Seoul'));
   slackSend (channel: "${slack_channel}", color: '#00FF00', message: "CI/CD를 완료 하였습니다. ${DD} \n 작업 : '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -31,8 +32,8 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       ttyEnabled: true
     ),
     containerTemplate(
-      name: 'node', // container 에 node 설정
-      image: 'node:14.18-alpine3.11',
+      name: 'gradle',
+      image: 'gradle/7.2-jdk11',
       command: 'cat',
       ttyEnabled: true
     ),
@@ -67,19 +68,18 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
               checkout scm
           }
         }
-        // node build 스테이지
-        stage('node build') {
+        // gradle build 스테이지
+        stage('Gradle build') {
           container('node') {
-              sh "npm audit fix"
-              sh "npm install"
-              sh "npm build"
+              sh "cd springjava"
+              sh "./gradle build"
           }
         }
         // docker image build 스테이지
         stage('docker build') {
           notifyCommon(SLACK_CHANNEL, '도커 이미지 빌드/푸쉬를 실행합니다.')
           container('docker') {
-              app = docker.build("${dockerId}/${dockerRepo}")
+              app = docker.build("${dockerId}/${dockerRepo_spring}")
           }
         }
         //docker.withRegistry에 dockerhub는 앞서 설정한 dockerhub credentials의 ID이다.
@@ -89,7 +89,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
                 app.push("${env.BUILD_NUMBER}")
                 app.push("latest")
             }
-            sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo}:${env.BUILD_NUMBER}"
+            sh "docker rmi registry.hub.docker.com/${dockerId}/${dockerRepo_spring}:${env.BUILD_NUMBER}"
           }
         }
         // kubernetes에 배포하는 stage, 배포할 yaml파일(필자의 경우 test.yaml)은 jenkinsfile과 마찬가지로 git소스 root에 위치시킨다.

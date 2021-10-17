@@ -1,0 +1,7 @@
+package com.immovables.springjava.DBConnector;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
+
+}

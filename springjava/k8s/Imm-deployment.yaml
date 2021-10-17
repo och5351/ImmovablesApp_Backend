@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immovables-serverside-deployment
+  namespace: ns-immovables-spring
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: immovables-serverside
+  template:
+    metadata:
+      labels:
+        app: immovables-serverside
+    spec:
+      containers:
+        - name: immovables-serverside
+          image: och5351/springtest:latest
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+          env:
+            - name: DATE
+              value: "DATE_STRING"
+      #imagePullSecrets:
+      #  - name: my-secret
+      nodeSelector:
+        kubernetes.io/hostname: och2

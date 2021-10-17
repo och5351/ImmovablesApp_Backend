@@ -33,7 +33,7 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
     ),
     containerTemplate(
       name: 'gradle',
-      image: 'gradle:7.2-jdk11',
+      image: 'gradle:7.2.0-jdk11',
       command: 'cat',
       ttyEnabled: true
     ),
@@ -60,13 +60,12 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
       try {
         // Start
         stage('Start'){
-          notifyCommon(SLACK_CHANNEL,'CI/CD 를 실행합니다.')
+          // notifyCommon(SLACK_CHANNEL,'CI/CD 를 실행합니다.')
         }
 
         // git clone 스테이지
         stage('Clone repository') {
           container('git') {
-              sh "ls"
               checkout scm
               
           }
@@ -74,8 +73,8 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         // gradle build 스테이지
         stage('Gradle build') {
           container('node') {
-              // sh "ls"
-              sh "./gradlew build"
+              sh "ls"
+              // sh "./gradlew build"
           }
         }
         // // docker image build 스테이지
@@ -107,11 +106,11 @@ podTemplate(label: 'jenkins-slave-pod',  //jenkins slave pod name
         //       sh "kubectl apply -f ./k8s/"
         //   }
         // }
-        notifySuccessful(SLACK_CHANNEL)
+        // notifySuccessful(SLACK_CHANNEL)
       } catch(e) {
         /* 배포 실패 시 */
         currentBuild.result = "FAILED"
-        notifyFailed(SLACK_CHANNEL)
+        // notifyFailed(SLACK_CHANNEL)
     }
   }
 }

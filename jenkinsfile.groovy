@@ -1,4 +1,4 @@
-//test
+//test2
 // Pipeline 변수 
 def dockerId = "och5351"
 // def dockerRepo_exp = "expresstest"

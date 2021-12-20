@@ -1,20 +1,20 @@
-server:
-  # port: 3000
-  servlet:
-    context-path: /
+# server:
+#   port: 3000
+#   servlet:
+#     context-path: /
 
 spring:
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-  data:
-    mongodb:
-      uri: mongodb://opyter.iptime.org:27017/crawler
-      database: crawler
-  session:
-    timeout: 600
-    store-type: mongodb
-    mongodb:
-      collection-name: sessions
+  # autoconfigure:
+  #   exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  # data:
+  #   mongodb:
+  #     uri: mongodb://opyter.iptime.org:27017/crawler
+  #     database: crawler
+  # session:
+  #   timeout: 600
+  #   store-type: mongodb
+  #   mongodb:
+  #     collection-name: sessions
   datasource:
     url: jdbc:mariadb://opyter.iptime.org:13306/Immovables
     driver-class-name: org.mariadb.jdbc.Driver
